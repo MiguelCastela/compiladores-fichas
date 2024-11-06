@@ -9,7 +9,6 @@ int yylex(void);
 void yyerror(char *);
 
 struct node *program;
-
 %}
 
 %token INTEGER DOUBLE IF THEN ELSE
@@ -38,12 +37,21 @@ program: IDENTIFIER '(' parameters ')' '=' expression
                                       addchild($$, function); /*reorder this for readability?*/}
     ;
 
-parameters: parameter               { /* ... */ }
-    | parameters ',' parameter      { /* ... */ }
+parameters: parameter               { 
+                                        $$ = newnode(Parameters, NULL);
+                                        addchild($$,$1)
+
+}
+    | parameters ',' parameter      {}
     ;
 
-parameter: INTEGER IDENTIFIER       { /* ... */ }
-    | DOUBLE IDENTIFIER             { /* ... */ }
+parameter: INTEGER IDENTIFIER       {   $$ = newnode(Parameter, NULL) 
+                                        addchild($$, newnode(Interger, $1))
+                                        addchild($$, newnode(Identifier, $2))
+                                    }
+    | DOUBLE IDENTIFIER             { $$ = newnode(Paramter, NULL);
+                                      addchild($$, newnode(Double, ))
+                                      addchild($$, newnode(Interger, )) }
     ;
 
 arguments: expression               { /* ... */ }
