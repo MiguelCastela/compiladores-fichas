@@ -42,26 +42,36 @@ parameters: parameter               {
                                         addchild($$,$1)
 
 }
-    | parameters ',' parameter      {}
+    | parameters ',' parameter      {$$ = $1
+                                    addchild($$, $3)
+                                    }
     ;
 
 parameter: INTEGER IDENTIFIER       {   $$ = newnode(Parameter, NULL) 
-                                        addchild($$, newnode(Interger, $1))
+                                        addchild($$, newnode(Integer, $1))
                                         addchild($$, newnode(Identifier, $2))
                                     }
-    | DOUBLE IDENTIFIER             { $$ = newnode(Paramter, NULL);
-                                      addchild($$, newnode(Double, ))
-                                      addchild($$, newnode(Interger, )) }
+    | DOUBLE IDENTIFIER             { $$ = newnode(Parameter, NULL);
+                                      addchild($$, newnode(Double,$1 ))
+                                      addchild($$, newnode(Interger,$2)) }
     ;
 
-arguments: expression               { /* ... */ }
-    | arguments ',' expression      { /* ... */ }
+arguments: expression               { $$ = newnode(Arguments, NULL);
+                                      addchild($$, $1); }
+    | arguments ',' expression      { $$ = $1
+                                      addchild($$, $3); }
     ;
 
-expression: IDENTIFIER              { /* ... */ }
-    | NATURAL                       { $$ = newnode(Natural, $1); }
-    | DECIMAL                       { /* ... */ }
-    | IDENTIFIER '(' arguments ')'  { /* ... */ }
+expression: IDENTIFIER              { $$ = newnode(Expression, NULL);
+                                      addchild($$, newnode(Identifier, $1)); 
+                                      }
+
+    | NATURAL                       { $$ = newnode(Expression, NULL);
+                                      addchild($$, newnode(Natural, $1)); }
+    | DECIMAL                       { 
+                                        $$ = newnode(Expression, NULL);
+                                        addchild($$, newnode(Decimal, $1)); }
+    | IDENTIFIER '(' arguments ')'  { }
     | IF expression THEN expression ELSE expression  %prec LOW
                                     { /* ... */ }
     | expression '+' expression     { /* ... */ }
