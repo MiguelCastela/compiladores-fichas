@@ -29,56 +29,98 @@ struct node *program;
 %%
 
 program: IDENTIFIER '(' parameters ')' '=' expression
-                                    { $$ = program = newnode(Program, NULL);
+                                    { 
+                                      $$ = program = newnode(Program, NULL);
                                       struct node *function = newnode(Function, NULL);
                                       addchild(function, newnode(Identifier, $1));
                                       addchild(function, $3);
                                       addchild(function, $6);
-                                      addchild($$, function); /*reorder this for readability?*/}
+                                      addchild($$, function); /*reorder this for readability?*/
+                                    }
     ;
 
 parameters: parameter               { 
                                         $$ = newnode(Parameters, NULL);
-                                        addchild($$,$1)
-
-}
-    | parameters ',' parameter      {$$ = $1
-                                    addchild($$, $3)
+                                        addchild($$,$1);
+                                    }
+    | parameters ',' parameter      {
+                                    $$ = $1;
+                                    addchild($$, $3);
                                     }
     ;
 
-parameter: INTEGER IDENTIFIER       {   $$ = newnode(Parameter, NULL) 
-                                        addchild($$, newnode(Integer, $1))
-                                        addchild($$, newnode(Identifier, $2))
+parameter: INTEGER IDENTIFIER       {   
+                                        $$ = newnode(Parameter, NULL);
+                                        addchild($$, newnode(Integer,NULL));
+                                        addchild($$, newnode(Identifier, $2));
                                     }
-    | DOUBLE IDENTIFIER             { $$ = newnode(Parameter, NULL);
-                                      addchild($$, newnode(Double,$1 ))
-                                      addchild($$, newnode(Interger,$2)) }
+    | DOUBLE IDENTIFIER             { 
+                                      $$ = newnode(Parameter, NULL);
+                                      addchild($$, newnode(Double,NULL ));
+                                      addchild($$, newnode(Identifier,$2)); }
     ;
 
 arguments: expression               { $$ = newnode(Arguments, NULL);
                                       addchild($$, $1); }
-    | arguments ',' expression      { $$ = $1
-                                      addchild($$, $3); }
+    | arguments ',' expression      { 
+                                      $$ = $1;
+                                      addchild($$, $3); 
+                                    }
     ;
 
-expression: IDENTIFIER              { $$ = newnode(Expression, NULL);
+expression: IDENTIFIER              { 
+                                      $$ = newnode(Expression, NULL);
                                       addchild($$, newnode(Identifier, $1)); 
-                                      }
+                                    }
 
-    | NATURAL                       { $$ = newnode(Expression, NULL);
-                                      addchild($$, newnode(Natural, $1)); }
+    | NATURAL                       {
+                                      $$ = newnode(Expression, NULL);
+                                      addchild($$, newnode(Natural, $1)); 
+                                    }
     | DECIMAL                       { 
-                                        $$ = newnode(Expression, NULL);
-                                        addchild($$, newnode(Decimal, $1)); }
-    | IDENTIFIER '(' arguments ')'  { }
+                                      $$ = newnode(Expression, NULL);
+                                      addchild($$, newnode(Decimal, $1));
+                                    }
+    | IDENTIFIER '(' arguments ')'  { 
+                                      $$ = newnode(Expression, NULL);
+                                      addchild($$, newnode(Identifier, $1));
+                                      addchild($$, $3); 
+                                    }
+
     | IF expression THEN expression ELSE expression  %prec LOW
-                                    { /* ... */ }
-    | expression '+' expression     { /* ... */ }
-    | expression '-' expression     { /* ... */ }
-    | expression '*' expression     { /* ... */ }
-    | expression '/' expression     { /* ... */ }
-    | '(' expression ')'            { $$ = $2; }  
+                                    { 
+                                      $$ = newnode(If, NULL);
+                                      $$ = newnode(THEN, NULL);
+                                      $$ = newnode(ELSE, NULL);
+                                      addchild($$, $2);
+                                      addchild($$, $4);
+                                      addchild($$, $6);
+                                    }
+    ;
+
+    | expression '+' expression     { 
+                                      $$ = newnode(Add, NULL);
+                                      addchild($$, $1);
+                                      addchild($$, $3); 
+                                    }
+    | expression '-' expression     { 
+                                      $$ = newnode(Sub, NULL);
+                                      addchild($$, $1);
+                                      addchild($$, $3); 
+                                    }
+    | expression '*' expression     { 
+                                      $$ = newnode(Mul, NULL);
+                                      addchild($$, $1);
+                                      addchild($$, $3); 
+                                    }
+    | expression '/' expression     { 
+                                      $$ = newnode(Div, NULL);
+                                      addchild($$, $1);
+                                      addchild($$, $3); 
+                                    }
+    | '(' expression ')'            {
+                                      $$ = $2; 
+                                    }  
     ;
 
 %%

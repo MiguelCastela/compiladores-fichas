@@ -1,7 +1,7 @@
 #ifndef _AST_H
 #define _AST_H
 
-enum category { Program, Function, Parameters, Parameter, Arguments, Integer, Double, Identifier, Natural, Decimal, Call, If, Add, Sub, Mul, Div };
+enum category { Program, Function, Parameters, Parameter, Arguments, Integer, Double, Identifier, Natural, Decimal, Call, If, Add, Sub, Mul, Div, Expression };
 
 struct node {
     enum category category;
@@ -16,5 +16,6 @@ struct node_list {
 
 struct node *newnode(enum category category, char *token);
 void addchild(struct node *parent, struct node *child);
+const char* category_to_string(enum category cat); 
 
 #endif
