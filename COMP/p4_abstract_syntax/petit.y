@@ -37,6 +37,15 @@ program: IDENTIFIER '(' parameters ')' '=' expression
                                       addchild(function, $6);
                                       addchild($$, function); /*reorder this for readability?*/
                                     }
+          | program IDENTIFIER '(' parameters ')' '=' expression  
+                                    {
+                                        $$ = $1;
+                                        struct node *function = newnode(Function, NULL);
+                                        addchild(function, newnode(Identifier, $2));
+                                        addchild(function, $4);
+                                        addchild(function, $7);
+                                        addchild($$, function);
+                                    }
     ;
 
 parameters: parameter               { 
@@ -68,30 +77,18 @@ arguments: expression               { $$ = newnode(Arguments, NULL);
                                     }
     ;
 
-expression: IDENTIFIER              { 
-                                      $$ = newnode(Expression, NULL);
-                                      addchild($$, newnode(Identifier, $1)); 
-                                    }
-
-    | NATURAL                       {
-                                      $$ = newnode(Expression, NULL);
-                                      addchild($$, newnode(Natural, $1)); 
-                                    }
-    | DECIMAL                       { 
-                                      $$ = newnode(Expression, NULL);
-                                      addchild($$, newnode(Decimal, $1));
-                                    }
+expression: IDENTIFIER              { $$ = newnode(Identifier, $1); }
+    | NATURAL                       { $$ = newnode(Natural, $1); }
+    | DECIMAL                       { $$ = newnode(Decimal, $1); }
     | IDENTIFIER '(' arguments ')'  { 
-                                      $$ = newnode(Expression, NULL);
-                                      addchild($$, newnode(Identifier, $1));
+                                      $$ = newnode(Call, NULL);
+                                      addchild($$, $1);
                                       addchild($$, $3); 
                                     }
 
     | IF expression THEN expression ELSE expression  %prec LOW
                                     { 
                                       $$ = newnode(If, NULL);
-                                      $$ = newnode(THEN, NULL);
-                                      $$ = newnode(ELSE, NULL);
                                       addchild($$, $2);
                                       addchild($$, $4);
                                       addchild($$, $6);
