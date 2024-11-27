@@ -6,7 +6,7 @@ graph: {
 	splines:	yes
 	node: {
 		title:	"0"
-		label:	"state  0\n $accept -> . program $end\n program -> . IDENTIFIER '(' parameters ')' '=' expression"
+		label:	"state  0\n $accept -> . program $end\n program -> . IDENTIFIER '(' parameters ')' '=' expression\n program -> . program IDENTIFIER '(' parameters ')' '=' expression"
 	}
 	edge: {
 		sourcename:	"0"
@@ -35,12 +35,19 @@ graph: {
 	}
 	node: {
 		title:	"2"
-		label:	"state  2\n $accept -> program . $end"
+		label:	"state  2\n $accept -> program . $end\n program -> program . IDENTIFIER '(' parameters ')' '=' expression"
 	}
 	edge: {
 		sourcename:	"2"
 		targetname:	"4"
 		label:	"$end"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"2"
+		targetname:	"5"
+		label:	"IDENTIFIER"
 		color:	blue
 		textcolor:	black
 	}
@@ -50,28 +57,28 @@ graph: {
 	}
 	edge: {
 		sourcename:	"3"
-		targetname:	"5"
+		targetname:	"6"
 		label:	"INTEGER"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
 		sourcename:	"3"
-		targetname:	"6"
+		targetname:	"7"
 		label:	"DOUBLE"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
 		sourcename:	"3"
-		targetname:	"7"
+		targetname:	"8"
 		label:	"parameters"
 		color:	green
 		textcolor:	black
 	}
 	edge: {
 		sourcename:	"3"
-		targetname:	"8"
+		targetname:	"9"
 		label:	"parameter"
 		color:	green
 		textcolor:	black
@@ -82,497 +89,392 @@ graph: {
 	}
 	node: {
 		title:	"5"
-		label:	"state  5\n parameter -> INTEGER . IDENTIFIER"
+		label:	"state  5\n program -> program IDENTIFIER . '(' parameters ')' '=' expression"
 	}
 	edge: {
 		sourcename:	"5"
-		targetname:	"9"
-		label:	"IDENTIFIER"
+		targetname:	"10"
+		label:	"'('"
 		color:	blue
 		textcolor:	black
 	}
 	node: {
 		title:	"6"
-		label:	"state  6\n parameter -> DOUBLE . IDENTIFIER"
+		label:	"state  6\n parameter -> INTEGER . IDENTIFIER"
 	}
 	edge: {
 		sourcename:	"6"
-		targetname:	"10"
+		targetname:	"11"
 		label:	"IDENTIFIER"
 		color:	blue
 		textcolor:	black
 	}
 	node: {
 		title:	"7"
-		label:	"state  7\n program -> IDENTIFIER '(' parameters . ')' '=' expression\n parameters -> parameters . ',' parameter"
-	}
-	edge: {
-		sourcename:	"7"
-		targetname:	"11"
-		label:	"')'"
-		color:	blue
-		textcolor:	black
+		label:	"state  7\n parameter -> DOUBLE . IDENTIFIER"
 	}
 	edge: {
 		sourcename:	"7"
 		targetname:	"12"
-		label:	"','"
+		label:	"IDENTIFIER"
 		color:	blue
 		textcolor:	black
 	}
 	node: {
 		title:	"8"
-		label:	"state  8\n parameters -> parameter ."
-	}
-	node: {
-		title:	"9"
-		label:	"state  9\n parameter -> INTEGER IDENTIFIER ."
-	}
-	node: {
-		title:	"10"
-		label:	"state 10\n parameter -> DOUBLE IDENTIFIER ."
-	}
-	node: {
-		title:	"11"
-		label:	"state 11\n program -> IDENTIFIER '(' parameters ')' . '=' expression"
+		label:	"state  8\n program -> IDENTIFIER '(' parameters . ')' '=' expression\n parameters -> parameters . ',' parameter"
 	}
 	edge: {
-		sourcename:	"11"
+		sourcename:	"8"
 		targetname:	"13"
-		label:	"'='"
+		label:	"')'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"8"
+		targetname:	"14"
+		label:	"','"
 		color:	blue
 		textcolor:	black
 	}
 	node: {
-		title:	"12"
-		label:	"state 12\n parameters -> parameters ',' . parameter\n parameter -> . INTEGER IDENTIFIER\n parameter -> . DOUBLE IDENTIFIER"
+		title:	"9"
+		label:	"state  9\n parameters -> parameter ."
+	}
+	node: {
+		title:	"10"
+		label:	"state 10\n program -> program IDENTIFIER '(' . parameters ')' '=' expression\n parameters -> . parameter\n parameters -> . parameters ',' parameter\n parameter -> . INTEGER IDENTIFIER\n parameter -> . DOUBLE IDENTIFIER"
 	}
 	backedge: {
-		sourcename:	"12"
-		targetname:	"5"
+		sourcename:	"10"
+		targetname:	"6"
 		label:	"INTEGER"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"12"
-		targetname:	"6"
+		sourcename:	"10"
+		targetname:	"7"
 		label:	"DOUBLE"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
-		sourcename:	"12"
-		targetname:	"14"
+		sourcename:	"10"
+		targetname:	"15"
+		label:	"parameters"
+		color:	green
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"10"
+		targetname:	"9"
 		label:	"parameter"
 		color:	green
 		textcolor:	black
 	}
 	node: {
-		title:	"13"
-		label:	"state 13\n program -> IDENTIFIER '(' parameters ')' '=' . expression\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
+		title:	"11"
+		label:	"state 11\n parameter -> INTEGER IDENTIFIER ."
 	}
-	edge: {
-		sourcename:	"13"
-		targetname:	"15"
-		label:	"IF"
-		color:	blue
-		textcolor:	black
+	node: {
+		title:	"12"
+		label:	"state 12\n parameter -> DOUBLE IDENTIFIER ."
+	}
+	node: {
+		title:	"13"
+		label:	"state 13\n program -> IDENTIFIER '(' parameters ')' . '=' expression"
 	}
 	edge: {
 		sourcename:	"13"
 		targetname:	"16"
-		label:	"IDENTIFIER"
+		label:	"'='"
 		color:	blue
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"13"
-		targetname:	"17"
-		label:	"NATURAL"
-		color:	blue
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"13"
-		targetname:	"18"
-		label:	"DECIMAL"
-		color:	blue
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"13"
-		targetname:	"19"
-		label:	"'('"
-		color:	blue
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"13"
-		targetname:	"20"
-		label:	"expression"
-		color:	green
 		textcolor:	black
 	}
 	node: {
 		title:	"14"
-		label:	"state 14\n parameters -> parameters ',' parameter ."
+		label:	"state 14\n parameters -> parameters ',' . parameter\n parameter -> . INTEGER IDENTIFIER\n parameter -> . DOUBLE IDENTIFIER"
+	}
+	backedge: {
+		sourcename:	"14"
+		targetname:	"6"
+		label:	"INTEGER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"14"
+		targetname:	"7"
+		label:	"DOUBLE"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"14"
+		targetname:	"17"
+		label:	"parameter"
+		color:	green
+		textcolor:	black
 	}
 	node: {
 		title:	"15"
-		label:	"state 15\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> IF . expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
+		label:	"state 15\n program -> program IDENTIFIER '(' parameters . ')' '=' expression\n parameters -> parameters . ',' parameter"
 	}
 	edge: {
 		sourcename:	"15"
-		targetname:	"15"
+		targetname:	"18"
+		label:	"')'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"15"
+		targetname:	"14"
+		label:	"','"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"16"
+		label:	"state 16\n program -> IDENTIFIER '(' parameters ')' '=' . expression\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
+	}
+	edge: {
+		sourcename:	"16"
+		targetname:	"19"
 		label:	"IF"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
-		sourcename:	"15"
-		targetname:	"16"
+		sourcename:	"16"
+		targetname:	"20"
 		label:	"IDENTIFIER"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
-		sourcename:	"15"
-		targetname:	"17"
+		sourcename:	"16"
+		targetname:	"21"
 		label:	"NATURAL"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
-		sourcename:	"15"
-		targetname:	"18"
+		sourcename:	"16"
+		targetname:	"22"
 		label:	"DECIMAL"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
-		sourcename:	"15"
-		targetname:	"19"
+		sourcename:	"16"
+		targetname:	"23"
 		label:	"'('"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
-		sourcename:	"15"
-		targetname:	"21"
+		sourcename:	"16"
+		targetname:	"24"
 		label:	"expression"
 		color:	green
 		textcolor:	black
 	}
 	node: {
-		title:	"16"
-		label:	"state 16\n expression -> IDENTIFIER .[$end, THEN, ELSE, '+', '-', '*', '/', ')', ',']\n expression -> IDENTIFIER . '(' arguments ')'"
-	}
-	edge: {
-		sourcename:	"16"
-		targetname:	"22"
-		label:	"'('"
-		color:	blue
-		textcolor:	black
-	}
-	node: {
 		title:	"17"
-		label:	"state 17\n expression -> NATURAL ."
+		label:	"state 17\n parameters -> parameters ',' parameter ."
 	}
 	node: {
 		title:	"18"
-		label:	"state 18\n expression -> DECIMAL ."
+		label:	"state 18\n program -> program IDENTIFIER '(' parameters ')' . '=' expression"
+	}
+	edge: {
+		sourcename:	"18"
+		targetname:	"25"
+		label:	"'='"
+		color:	blue
+		textcolor:	black
 	}
 	node: {
 		title:	"19"
-		label:	"state 19\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'\n expression -> '(' . expression ')'"
-	}
-	backedge: {
-		sourcename:	"19"
-		targetname:	"15"
-		label:	"IF"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"19"
-		targetname:	"16"
-		label:	"IDENTIFIER"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"19"
-		targetname:	"17"
-		label:	"NATURAL"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"19"
-		targetname:	"18"
-		label:	"DECIMAL"
-		color:	blue
-		textcolor:	black
+		label:	"state 19\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> IF . expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
 	}
 	edge: {
 		sourcename:	"19"
 		targetname:	"19"
-		label:	"'('"
+		label:	"IF"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"19"
+		targetname:	"20"
+		label:	"IDENTIFIER"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"19"
+		targetname:	"21"
+		label:	"NATURAL"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"19"
+		targetname:	"22"
+		label:	"DECIMAL"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
 		sourcename:	"19"
 		targetname:	"23"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"19"
+		targetname:	"26"
 		label:	"expression"
 		color:	green
 		textcolor:	black
 	}
 	node: {
 		title:	"20"
-		label:	"state 20\n program -> IDENTIFIER '(' parameters ')' '=' expression .[$end]\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
-	}
-	edge: {
-		sourcename:	"20"
-		targetname:	"24"
-		label:	"'+'"
-		color:	blue
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"20"
-		targetname:	"25"
-		label:	"'-'"
-		color:	blue
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"20"
-		targetname:	"26"
-		label:	"'*'"
-		color:	blue
-		textcolor:	black
+		label:	"state 20\n expression -> IDENTIFIER .[$end, THEN, ELSE, IDENTIFIER, '+', '-', '*', '/', ')', ',']\n expression -> IDENTIFIER . '(' arguments ')'"
 	}
 	edge: {
 		sourcename:	"20"
 		targetname:	"27"
-		label:	"'/'"
+		label:	"'('"
 		color:	blue
 		textcolor:	black
 	}
 	node: {
 		title:	"21"
-		label:	"state 21\n expression -> IF expression . THEN expression ELSE expression\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
-	}
-	edge: {
-		sourcename:	"21"
-		targetname:	"28"
-		label:	"THEN"
-		color:	blue
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"21"
-		targetname:	"24"
-		label:	"'+'"
-		color:	blue
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"21"
-		targetname:	"25"
-		label:	"'-'"
-		color:	blue
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"21"
-		targetname:	"26"
-		label:	"'*'"
-		color:	blue
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"21"
-		targetname:	"27"
-		label:	"'/'"
-		color:	blue
-		textcolor:	black
+		label:	"state 21\n expression -> NATURAL ."
 	}
 	node: {
 		title:	"22"
-		label:	"state 22\n arguments -> . expression\n arguments -> . arguments ',' expression\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> IDENTIFIER '(' . arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
+		label:	"state 22\n expression -> DECIMAL ."
+	}
+	node: {
+		title:	"23"
+		label:	"state 23\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'\n expression -> '(' . expression ')'"
 	}
 	backedge: {
-		sourcename:	"22"
-		targetname:	"15"
+		sourcename:	"23"
+		targetname:	"19"
 		label:	"IF"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"22"
-		targetname:	"16"
+		sourcename:	"23"
+		targetname:	"20"
 		label:	"IDENTIFIER"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"22"
-		targetname:	"17"
+		sourcename:	"23"
+		targetname:	"21"
 		label:	"NATURAL"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"22"
-		targetname:	"18"
+		sourcename:	"23"
+		targetname:	"22"
 		label:	"DECIMAL"
 		color:	blue
 		textcolor:	black
 	}
-	backedge: {
-		sourcename:	"22"
-		targetname:	"19"
+	edge: {
+		sourcename:	"23"
+		targetname:	"23"
 		label:	"'('"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
-		sourcename:	"22"
-		targetname:	"29"
-		label:	"arguments"
-		color:	green
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"22"
-		targetname:	"30"
+		sourcename:	"23"
+		targetname:	"28"
 		label:	"expression"
 		color:	green
 		textcolor:	black
 	}
 	node: {
-		title:	"23"
-		label:	"state 23\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression\n expression -> '(' expression . ')'"
+		title:	"24"
+		label:	"state 24\n program -> IDENTIFIER '(' parameters ')' '=' expression .[$end, IDENTIFIER]\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
 	}
 	edge: {
-		sourcename:	"23"
-		targetname:	"24"
+		sourcename:	"24"
+		targetname:	"29"
 		label:	"'+'"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
-		sourcename:	"23"
-		targetname:	"25"
+		sourcename:	"24"
+		targetname:	"30"
 		label:	"'-'"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
-		sourcename:	"23"
-		targetname:	"26"
-		label:	"'*'"
-		color:	blue
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"23"
-		targetname:	"27"
-		label:	"'/'"
-		color:	blue
-		textcolor:	black
-	}
-	edge: {
-		sourcename:	"23"
+		sourcename:	"24"
 		targetname:	"31"
-		label:	"')'"
-		color:	blue
-		textcolor:	black
-	}
-	node: {
-		title:	"24"
-		label:	"state 24\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> expression '+' . expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
-	}
-	backedge: {
-		sourcename:	"24"
-		targetname:	"15"
-		label:	"IF"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"24"
-		targetname:	"16"
-		label:	"IDENTIFIER"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"24"
-		targetname:	"17"
-		label:	"NATURAL"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"24"
-		targetname:	"18"
-		label:	"DECIMAL"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"24"
-		targetname:	"19"
-		label:	"'('"
+		label:	"'*'"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
 		sourcename:	"24"
 		targetname:	"32"
-		label:	"expression"
-		color:	green
+		label:	"'/'"
+		color:	blue
 		textcolor:	black
 	}
 	node: {
 		title:	"25"
-		label:	"state 25\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> expression '-' . expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
+		label:	"state 25\n program -> program IDENTIFIER '(' parameters ')' '=' . expression\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
 	}
 	backedge: {
 		sourcename:	"25"
-		targetname:	"15"
+		targetname:	"19"
 		label:	"IF"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
 		sourcename:	"25"
-		targetname:	"16"
+		targetname:	"20"
 		label:	"IDENTIFIER"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
 		sourcename:	"25"
-		targetname:	"17"
+		targetname:	"21"
 		label:	"NATURAL"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
 		sourcename:	"25"
-		targetname:	"18"
+		targetname:	"22"
 		label:	"DECIMAL"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
 		sourcename:	"25"
-		targetname:	"19"
+		targetname:	"23"
 		label:	"'('"
 		color:	blue
 		textcolor:	black
@@ -586,85 +488,78 @@ graph: {
 	}
 	node: {
 		title:	"26"
-		label:	"state 26\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> expression '*' . expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
+		label:	"state 26\n expression -> IF expression . THEN expression ELSE expression\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
 	}
-	backedge: {
+	edge: {
 		sourcename:	"26"
-		targetname:	"15"
-		label:	"IF"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"26"
-		targetname:	"16"
-		label:	"IDENTIFIER"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"26"
-		targetname:	"17"
-		label:	"NATURAL"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"26"
-		targetname:	"18"
-		label:	"DECIMAL"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"26"
-		targetname:	"19"
-		label:	"'('"
+		targetname:	"34"
+		label:	"THEN"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
 		sourcename:	"26"
-		targetname:	"34"
-		label:	"expression"
-		color:	green
+		targetname:	"29"
+		label:	"'+'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"26"
+		targetname:	"30"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"26"
+		targetname:	"31"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"26"
+		targetname:	"32"
+		label:	"'/'"
+		color:	blue
 		textcolor:	black
 	}
 	node: {
 		title:	"27"
-		label:	"state 27\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> expression '/' . expression\n expression -> . '(' expression ')'"
+		label:	"state 27\n arguments -> . expression\n arguments -> . arguments ',' expression\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> IDENTIFIER '(' . arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
 	}
 	backedge: {
 		sourcename:	"27"
-		targetname:	"15"
+		targetname:	"19"
 		label:	"IF"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
 		sourcename:	"27"
-		targetname:	"16"
+		targetname:	"20"
 		label:	"IDENTIFIER"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
 		sourcename:	"27"
-		targetname:	"17"
+		targetname:	"21"
 		label:	"NATURAL"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
 		sourcename:	"27"
-		targetname:	"18"
+		targetname:	"22"
 		label:	"DECIMAL"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
 		sourcename:	"27"
-		targetname:	"19"
+		targetname:	"23"
 		label:	"'('"
 		color:	blue
 		textcolor:	black
@@ -672,349 +567,611 @@ graph: {
 	edge: {
 		sourcename:	"27"
 		targetname:	"35"
-		label:	"expression"
+		label:	"arguments"
 		color:	green
 		textcolor:	black
 	}
-	node: {
-		title:	"28"
-		label:	"state 28\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> IF expression THEN . expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
-	}
-	backedge: {
-		sourcename:	"28"
-		targetname:	"15"
-		label:	"IF"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"28"
-		targetname:	"16"
-		label:	"IDENTIFIER"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"28"
-		targetname:	"17"
-		label:	"NATURAL"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"28"
-		targetname:	"18"
-		label:	"DECIMAL"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"28"
-		targetname:	"19"
-		label:	"'('"
-		color:	blue
-		textcolor:	black
-	}
 	edge: {
-		sourcename:	"28"
+		sourcename:	"27"
 		targetname:	"36"
 		label:	"expression"
 		color:	green
 		textcolor:	black
 	}
 	node: {
-		title:	"29"
-		label:	"state 29\n arguments -> arguments . ',' expression\n expression -> IDENTIFIER '(' arguments . ')'"
+		title:	"28"
+		label:	"state 28\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression\n expression -> '(' expression . ')'"
 	}
 	edge: {
-		sourcename:	"29"
+		sourcename:	"28"
+		targetname:	"29"
+		label:	"'+'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"28"
+		targetname:	"30"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"28"
+		targetname:	"31"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"28"
+		targetname:	"32"
+		label:	"'/'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"28"
 		targetname:	"37"
 		label:	"')'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"29"
+		label:	"state 29\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> expression '+' . expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
+	}
+	backedge: {
+		sourcename:	"29"
+		targetname:	"19"
+		label:	"IF"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"29"
+		targetname:	"20"
+		label:	"IDENTIFIER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"29"
+		targetname:	"21"
+		label:	"NATURAL"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"29"
+		targetname:	"22"
+		label:	"DECIMAL"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"29"
+		targetname:	"23"
+		label:	"'('"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
 		sourcename:	"29"
 		targetname:	"38"
-		label:	"','"
-		color:	blue
+		label:	"expression"
+		color:	green
 		textcolor:	black
 	}
 	node: {
 		title:	"30"
-		label:	"state 30\n arguments -> expression .[')', ',']\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+		label:	"state 30\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> expression '-' . expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
 	}
 	backedge: {
 		sourcename:	"30"
-		targetname:	"24"
-		label:	"'+'"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"30"
-		targetname:	"25"
-		label:	"'-'"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"30"
-		targetname:	"26"
-		label:	"'*'"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"30"
-		targetname:	"27"
-		label:	"'/'"
-		color:	blue
-		textcolor:	black
-	}
-	node: {
-		title:	"31"
-		label:	"state 31\n expression -> '(' expression ')' ."
-	}
-	node: {
-		title:	"32"
-		label:	"state 32\n expression -> expression . '+' expression[$end, THEN, ELSE, '+', '-', ')', ',']\n expression -> expression '+' expression .[$end, THEN, ELSE, '+', '-', ')', ',']\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
-	}
-	backedge: {
-		sourcename:	"32"
-		targetname:	"26"
-		label:	"'*'"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"32"
-		targetname:	"27"
-		label:	"'/'"
-		color:	blue
-		textcolor:	black
-	}
-	node: {
-		title:	"33"
-		label:	"state 33\n expression -> expression . '+' expression\n expression -> expression . '-' expression[$end, THEN, ELSE, '+', '-', ')', ',']\n expression -> expression '-' expression .[$end, THEN, ELSE, '+', '-', ')', ',']\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
-	}
-	backedge: {
-		sourcename:	"33"
-		targetname:	"26"
-		label:	"'*'"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"33"
-		targetname:	"27"
-		label:	"'/'"
-		color:	blue
-		textcolor:	black
-	}
-	node: {
-		title:	"34"
-		label:	"state 34\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression[$end, THEN, ELSE, '+', '-', '*', '/', ')', ',']\n expression -> expression '*' expression .[$end, THEN, ELSE, '+', '-', '*', '/', ')', ',']\n expression -> expression . '/' expression"
-	}
-	node: {
-		title:	"35"
-		label:	"state 35\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression[$end, THEN, ELSE, '+', '-', '*', '/', ')', ',']\n expression -> expression '/' expression .[$end, THEN, ELSE, '+', '-', '*', '/', ')', ',']"
-	}
-	node: {
-		title:	"36"
-		label:	"state 36\n expression -> IF expression THEN expression . ELSE expression\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
-	}
-	edge: {
-		sourcename:	"36"
-		targetname:	"39"
-		label:	"ELSE"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"36"
-		targetname:	"24"
-		label:	"'+'"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"36"
-		targetname:	"25"
-		label:	"'-'"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"36"
-		targetname:	"26"
-		label:	"'*'"
-		color:	blue
-		textcolor:	black
-	}
-	backedge: {
-		sourcename:	"36"
-		targetname:	"27"
-		label:	"'/'"
-		color:	blue
-		textcolor:	black
-	}
-	node: {
-		title:	"37"
-		label:	"state 37\n expression -> IDENTIFIER '(' arguments ')' ."
-	}
-	node: {
-		title:	"38"
-		label:	"state 38\n arguments -> arguments ',' . expression\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
-	}
-	backedge: {
-		sourcename:	"38"
-		targetname:	"15"
+		targetname:	"19"
 		label:	"IF"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"38"
-		targetname:	"16"
+		sourcename:	"30"
+		targetname:	"20"
 		label:	"IDENTIFIER"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"38"
-		targetname:	"17"
+		sourcename:	"30"
+		targetname:	"21"
 		label:	"NATURAL"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"38"
-		targetname:	"18"
+		sourcename:	"30"
+		targetname:	"22"
 		label:	"DECIMAL"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"38"
-		targetname:	"19"
+		sourcename:	"30"
+		targetname:	"23"
 		label:	"'('"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
-		sourcename:	"38"
+		sourcename:	"30"
+		targetname:	"39"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"31"
+		label:	"state 31\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> expression '*' . expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
+	}
+	backedge: {
+		sourcename:	"31"
+		targetname:	"19"
+		label:	"IF"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"31"
+		targetname:	"20"
+		label:	"IDENTIFIER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"31"
+		targetname:	"21"
+		label:	"NATURAL"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"31"
+		targetname:	"22"
+		label:	"DECIMAL"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"31"
+		targetname:	"23"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"31"
 		targetname:	"40"
 		label:	"expression"
 		color:	green
 		textcolor:	black
 	}
 	node: {
-		title:	"39"
-		label:	"state 39\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> IF expression THEN expression ELSE . expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
+		title:	"32"
+		label:	"state 32\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> expression '/' . expression\n expression -> . '(' expression ')'"
 	}
 	backedge: {
-		sourcename:	"39"
-		targetname:	"15"
+		sourcename:	"32"
+		targetname:	"19"
 		label:	"IF"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"39"
-		targetname:	"16"
+		sourcename:	"32"
+		targetname:	"20"
 		label:	"IDENTIFIER"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"39"
-		targetname:	"17"
+		sourcename:	"32"
+		targetname:	"21"
 		label:	"NATURAL"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"39"
-		targetname:	"18"
+		sourcename:	"32"
+		targetname:	"22"
 		label:	"DECIMAL"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"39"
-		targetname:	"19"
+		sourcename:	"32"
+		targetname:	"23"
 		label:	"'('"
 		color:	blue
 		textcolor:	black
 	}
 	edge: {
-		sourcename:	"39"
+		sourcename:	"32"
 		targetname:	"41"
 		label:	"expression"
 		color:	green
 		textcolor:	black
 	}
 	node: {
-		title:	"40"
-		label:	"state 40\n arguments -> arguments ',' expression .[')', ',']\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+		title:	"33"
+		label:	"state 33\n program -> program IDENTIFIER '(' parameters ')' '=' expression .[$end, IDENTIFIER]\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
 	}
 	backedge: {
-		sourcename:	"40"
-		targetname:	"24"
+		sourcename:	"33"
+		targetname:	"29"
 		label:	"'+'"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"40"
-		targetname:	"25"
+		sourcename:	"33"
+		targetname:	"30"
 		label:	"'-'"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"40"
-		targetname:	"26"
+		sourcename:	"33"
+		targetname:	"31"
 		label:	"'*'"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"40"
-		targetname:	"27"
+		sourcename:	"33"
+		targetname:	"32"
 		label:	"'/'"
 		color:	blue
 		textcolor:	black
 	}
 	node: {
-		title:	"41"
-		label:	"state 41\n expression -> IF expression THEN expression ELSE expression .[$end, THEN, ELSE, ')', ',']\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+		title:	"34"
+		label:	"state 34\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> IF expression THEN . expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
 	}
 	backedge: {
-		sourcename:	"41"
-		targetname:	"24"
+		sourcename:	"34"
+		targetname:	"19"
+		label:	"IF"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"34"
+		targetname:	"20"
+		label:	"IDENTIFIER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"34"
+		targetname:	"21"
+		label:	"NATURAL"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"34"
+		targetname:	"22"
+		label:	"DECIMAL"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"34"
+		targetname:	"23"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"34"
+		targetname:	"42"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"35"
+		label:	"state 35\n arguments -> arguments . ',' expression\n expression -> IDENTIFIER '(' arguments . ')'"
+	}
+	edge: {
+		sourcename:	"35"
+		targetname:	"43"
+		label:	"')'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"35"
+		targetname:	"44"
+		label:	"','"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"36"
+		label:	"state 36\n arguments -> expression .[')', ',']\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+	}
+	backedge: {
+		sourcename:	"36"
+		targetname:	"29"
 		label:	"'+'"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"41"
-		targetname:	"25"
+		sourcename:	"36"
+		targetname:	"30"
 		label:	"'-'"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"41"
-		targetname:	"26"
+		sourcename:	"36"
+		targetname:	"31"
 		label:	"'*'"
 		color:	blue
 		textcolor:	black
 	}
 	backedge: {
-		sourcename:	"41"
-		targetname:	"27"
+		sourcename:	"36"
+		targetname:	"32"
+		label:	"'/'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"37"
+		label:	"state 37\n expression -> '(' expression ')' ."
+	}
+	node: {
+		title:	"38"
+		label:	"state 38\n expression -> expression . '+' expression[$end, THEN, ELSE, IDENTIFIER, '+', '-', ')', ',']\n expression -> expression '+' expression .[$end, THEN, ELSE, IDENTIFIER, '+', '-', ')', ',']\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+	}
+	backedge: {
+		sourcename:	"38"
+		targetname:	"31"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"38"
+		targetname:	"32"
+		label:	"'/'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"39"
+		label:	"state 39\n expression -> expression . '+' expression\n expression -> expression . '-' expression[$end, THEN, ELSE, IDENTIFIER, '+', '-', ')', ',']\n expression -> expression '-' expression .[$end, THEN, ELSE, IDENTIFIER, '+', '-', ')', ',']\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+	}
+	backedge: {
+		sourcename:	"39"
+		targetname:	"31"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"39"
+		targetname:	"32"
+		label:	"'/'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"40"
+		label:	"state 40\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression[$end, THEN, ELSE, IDENTIFIER, '+', '-', '*', '/', ')', ',']\n expression -> expression '*' expression .[$end, THEN, ELSE, IDENTIFIER, '+', '-', '*', '/', ')', ',']\n expression -> expression . '/' expression"
+	}
+	node: {
+		title:	"41"
+		label:	"state 41\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression[$end, THEN, ELSE, IDENTIFIER, '+', '-', '*', '/', ')', ',']\n expression -> expression '/' expression .[$end, THEN, ELSE, IDENTIFIER, '+', '-', '*', '/', ')', ',']"
+	}
+	node: {
+		title:	"42"
+		label:	"state 42\n expression -> IF expression THEN expression . ELSE expression\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+	}
+	edge: {
+		sourcename:	"42"
+		targetname:	"45"
+		label:	"ELSE"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"42"
+		targetname:	"29"
+		label:	"'+'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"42"
+		targetname:	"30"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"42"
+		targetname:	"31"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"42"
+		targetname:	"32"
+		label:	"'/'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"43"
+		label:	"state 43\n expression -> IDENTIFIER '(' arguments ')' ."
+	}
+	node: {
+		title:	"44"
+		label:	"state 44\n arguments -> arguments ',' . expression\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
+	}
+	backedge: {
+		sourcename:	"44"
+		targetname:	"19"
+		label:	"IF"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"44"
+		targetname:	"20"
+		label:	"IDENTIFIER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"44"
+		targetname:	"21"
+		label:	"NATURAL"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"44"
+		targetname:	"22"
+		label:	"DECIMAL"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"44"
+		targetname:	"23"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"44"
+		targetname:	"46"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"45"
+		label:	"state 45\n expression -> . IDENTIFIER\n expression -> . NATURAL\n expression -> . DECIMAL\n expression -> . IDENTIFIER '(' arguments ')'\n expression -> . IF expression THEN expression ELSE expression\n expression -> IF expression THEN expression ELSE . expression\n expression -> . expression '+' expression\n expression -> . expression '-' expression\n expression -> . expression '*' expression\n expression -> . expression '/' expression\n expression -> . '(' expression ')'"
+	}
+	backedge: {
+		sourcename:	"45"
+		targetname:	"19"
+		label:	"IF"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"45"
+		targetname:	"20"
+		label:	"IDENTIFIER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"45"
+		targetname:	"21"
+		label:	"NATURAL"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"45"
+		targetname:	"22"
+		label:	"DECIMAL"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"45"
+		targetname:	"23"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"45"
+		targetname:	"47"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"46"
+		label:	"state 46\n arguments -> arguments ',' expression .[')', ',']\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+	}
+	backedge: {
+		sourcename:	"46"
+		targetname:	"29"
+		label:	"'+'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"46"
+		targetname:	"30"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"46"
+		targetname:	"31"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"46"
+		targetname:	"32"
+		label:	"'/'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"47"
+		label:	"state 47\n expression -> IF expression THEN expression ELSE expression .[$end, THEN, ELSE, IDENTIFIER, ')', ',']\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+	}
+	backedge: {
+		sourcename:	"47"
+		targetname:	"29"
+		label:	"'+'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"47"
+		targetname:	"30"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"47"
+		targetname:	"31"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"47"
+		targetname:	"32"
 		label:	"'/'"
 		color:	blue
 		textcolor:	black

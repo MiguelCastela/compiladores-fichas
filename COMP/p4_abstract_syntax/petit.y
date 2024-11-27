@@ -82,7 +82,8 @@ expression: IDENTIFIER              { $$ = newnode(Identifier, $1); }
     | DECIMAL                       { $$ = newnode(Decimal, $1); }
     | IDENTIFIER '(' arguments ')'  { 
                                       $$ = newnode(Call, NULL);
-                                      addchild($$, $1);
+                                      addchild($$, newnode(Identifier, $1));
+                                      //addchild($$, $1);
                                       addchild($$, $3); 
                                     }
 

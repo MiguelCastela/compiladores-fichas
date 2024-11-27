@@ -7,6 +7,7 @@ struct node *newnode(enum category category, char *token) {
     struct node *new = malloc(sizeof(struct node));
     new->category = category;
     new->token = token;
+    new->type = no_type;
     new->children = malloc(sizeof(struct node_list));
     new->children->node = NULL;
     new->children->next = NULL;
@@ -24,21 +25,28 @@ void addchild(struct node *parent, struct node *child) {
     children->next = new;
 }
 
-// Names defined in ast.h
-const char *category_name[] = names;
-void dfs(struct node *cur_node, int depth){
-    for(int i = 0; i < depth; i++){
+// get a pointer to a specific child, numbered 0, 1, 2, ...
+struct node *getchild(struct node *parent, int position) {
+    struct node_list *children = parent->children;
+    while((children = children->next) != NULL)
+        if(position-- == 0)
+            return children->node;
+    return NULL;
+}
+
+// category names #defined in ast.h
+char *category_name[] = names;
+
+// print the AST
+void show(struct node *node, int depth) {
+    int i;
+    for(i = 0; i < depth; i++)
         printf("__");
-    }    
-    if(cur_node->token == NULL){
-        printf("%s\n", category_name[cur_node->category]);
-    }
-    else{
-        printf("%s(%s)\n", category_name[cur_node->category], cur_node->token);
-    }
-    
-    struct node_list *child = cur_node->children;
-    while((child = child->next) != NULL){
-        dfs(child->node, depth+1);
-    }
+    if(node->token == NULL)
+        printf("%s\n", category_name[node->category]);
+    else
+        printf("%s(%s)\n", category_name[node->category], node->token);
+    struct node_list *child = node->children;
+    while((child = child->next) != NULL)
+        show(child->node, depth+1);
 }
