@@ -42,3 +42,54 @@ void dfs(struct node *cur_node, int depth){
         dfs(child->node, depth+1);
     }
 }
+
+
+/*
+void print_indent(int depth) {
+    for (int i = 0; i < depth; i++) {
+        printf("__");
+    }
+}
+
+void show(struct node *node, int depth) {
+    if (node == NULL) return;
+
+    // Print the current node's category and token
+    print_indent(depth);
+    printf("%s", category_to_string(node->category));
+    if (node->token != NULL) {
+        printf("(%s)", node->token);
+    }
+    printf("\n");
+
+    // Traverse each child node in the children list
+    struct node_list *child = node->children;
+    while (child != NULL) {
+        if (child->node != NULL) {
+            show(child->node, depth + 1);
+        }
+        child = child->next; // Advance to the next child
+    }
+}
+
+const char* category_to_string(enum category cat) {
+    switch (cat) {
+        case Program: return "Program";
+        case Function: return "Function";
+        case Parameters: return "Parameters";
+        case Parameter: return "Parameter";
+        case Arguments: return "Arguments";
+        case Integer: return "Integer";
+        case Double: return "Double";
+        case Identifier: return "Identifier";
+        case Natural: return "Natural";
+        case Decimal: return "Decimal";
+        case Call: return "Call";
+        case If: return "If";
+        case Add: return "Add";
+        case Sub: return "Sub";
+        case Mul: return "Mul";
+        case Div: return "Div";
+        default: return "Unknown";
+    }
+}*/
