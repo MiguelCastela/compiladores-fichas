@@ -1,0 +1,4 @@
+factorial(integer n, integer x) = if n then n * (n-1 * x) else 1
+
+
+main(integer i) = 0
