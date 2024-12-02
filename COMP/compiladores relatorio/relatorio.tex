@@ -19,6 +19,7 @@
 \author{Trabalho realizado por:\\
 Miguel Castela uc2022212972 \\
 Nuno Batista uc2022212972}
+
 \date{}
 \begin{document}
 
@@ -30,10 +31,12 @@ Nuno Batista uc2022212972}
 Este relatório descreve o desenvolvimento de um compilador para a linguagem deiGO, realizado no âmbito do projeto da disciplina de Compiladores do ano letivo 2024/25. O objetivo deste projeto é aplicar os conhecimentos adquiridos ao longo do curso na construção de um compilador funcional.
 
 \section{Gramática}
-A linguagem deiGO é uma linguagem de programação criada especificamente para este projeto. Ela possui características que permitem a implementação de conceitos fundamentais de compiladores, como análise léxica, análise sintática, geração de código intermediário e otimização.
+The DeiGO language grammar is organized based on syntax rules that enable bottom-up parsing while respecting the deiGO language specifications. Our implementation focuses on resolving ambiguities by explicitly defining operator precedence and associativity rules. Non-termials where simplified by introducing auxiliary nodes to handle the optional elements and repititions. The separation of the declaration types VarDecl and FuncDecl into distinct rules was made to streamline the parsing process.
+
+
 
 \section{Algoritmos e Estruturas de Dados}
-O compilador desenvolvido é composto por várias fases, cada uma responsável por uma parte específica do processo de compilação. As principais fases são:
+O compilador desenvolvido é composto por várias fases, cadaaaaa uma responsável por uma parte específica do processo de compilação. As principais fases são:
 
 \begin{itemize}
     \item Análise Léxica
