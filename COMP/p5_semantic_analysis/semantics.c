@@ -16,9 +16,33 @@ void check_function(struct node *function) {
         printf("Identifier %s already declared\n", id->token);
         semantic_errors++;
     }
-    //check_parameters(getchild(function, 1));
+    check_parameters(getchild(function, 1));
     //check_expression(getchild(function, 2));
 }
+
+void check_parameters(struct node *parameters, struct symbol_list *scope){
+    struct node_list *parameter = parameters->children;
+    while((parameter = parameter->next) != NULL){
+        struct node *cur_parameter = parameter->node;
+
+        // The identifier is the second child
+        struct node *cur_parameter_id = getchild(cur_parameter, 1);
+        if(search_symbol(symbol_table, cur_parameter_id->token) == NULL){
+            enum type cur_type = category_type(getchild(cur_parameter, 0)->category);
+            cur_parameter->type = cur_type;
+            insert_symbol(scope, cur_parameter_id->token, cur_type, cur_parameter);
+        }
+        else{
+            printf("Identifier %s (%d:%d) already declared\n", cur_parameter_id->token, cur_parameter_id->token_line, cur_parameter_id->token_column);
+            semantic_errors++;
+        }
+    }
+}
+
+
+
+
+
 
 // semantic analysis begins here, with the AST root node
 int check_program(struct node *program) {
