@@ -1,8 +1,8 @@
 # Fdb version 4
-["pdflatex"] 1733107242.45702 "/home/castela/Documents/GitHub/compiladores_fichas/COMP/compiladores relatorio/relatorio.tex" "relatorio.pdf" "relatorio" 1733107242.70188 0
+["pdflatex"] 1733190655.67492 "/home/castela/Documents/GitHub/compiladores_fichas/COMP/compiladores relatorio/relatorio.tex" "relatorio.pdf" "relatorio" 1733190655.91234 0
   "/etc/texmf/web2c/texmf.cnf" 1733106275.85044 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/castela/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk" 1733107229.44275 14040 575591aca587dcc57026ab1e59cc5d73 ""
-  "/home/castela/Documents/GitHub/compiladores_fichas/COMP/compiladores relatorio/relatorio.tex" 1733107242.19776 1740 764f484c3aa71432d2c9bf693407a28f ""
+  "/home/castela/Documents/GitHub/compiladores_fichas/COMP/compiladores relatorio/relatorio.tex" 1733190655.19111 4010 5aaff932b429d5a967896748c0a5ce33 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
@@ -20,8 +20,8 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1733107137.99265 128028 f533b797fba58d231669ea19e894e23e ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1733107173 6800786 ebfbc1e61d7509c3762f2a3abdaf6604 ""
-  "relatorio.aux" 1733107242.66876 458 a772ea2f44da018b27308ebe017c56b6 "pdflatex"
-  "relatorio.tex" 1733107242.19776 1740 764f484c3aa71432d2c9bf693407a28f ""
+  "relatorio.aux" 1733190655.88311 609 b3c496396466404c24e177bdb46ef37f "pdflatex"
+  "relatorio.tex" 1733190655.19111 4010 5aaff932b429d5a967896748c0a5ce33 ""
   (generated)
   "relatorio.aux"
   "relatorio.log"
