@@ -67,7 +67,8 @@ int main(int argc, char *argv[]) {
         errors += check_program(program);
         if(errors == 0) {
             show_symbol_table();
-            show(program, 0);
+            show_symbol_scopes();
+            show_annotated(program, 0);
         }
     }
     return 0;

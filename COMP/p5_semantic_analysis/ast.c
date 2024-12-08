@@ -50,3 +50,39 @@ void show(struct node *node, int depth) {
     while((child = child->next) != NULL)
         show(child->node, depth+1);
 }
+
+void show_annotated(struct node *node, int depth){
+    for(int i = 0; i < depth; i++){
+        printf("__");
+    }
+    if(node->token == NULL){
+        printf("%s", category_name[node->category]);
+    }
+    else{
+        printf("%s(%s)", category_name[node->category], node->token);
+    }
+
+    if(node->type != no_type){
+        printf(" - %s", type_name(node->type));
+    }
+    printf("\n");
+    
+    struct node_list *child = node->children;
+
+    while((child = child->next) != NULL){
+        show_annotated(child->node, depth+1);
+    }
+}
+int count_children(struct node *parent){
+    if(parent == NULL){
+        return -1; 
+    }
+    int cnt = 0;
+    struct node_list *cur_child = parent->children;
+
+    while((cur_child = cur_child->next) != NULL){
+        cnt++;
+    }
+         
+    return cnt;
+}
