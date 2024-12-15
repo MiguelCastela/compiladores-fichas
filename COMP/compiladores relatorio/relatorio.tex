@@ -6,13 +6,15 @@
 \usepackage{listings} % Move this line to the preamble
 \usepackage[utf8]{inputenc} % Ensure UTF-8 encoding
 \usepackage{textcomp} % Provides \textendash
+\usepackage{graphicx}
 
 
-
-\pretitle{\vspace*{2in}\begin{center}\LARGE\bfseries} % Adjust vertical space before title
-\posttitle{\par\end{center}\vskip 0.5em}
-\preauthor{\begin{center}\large}
-\postauthor{\end{center}}
+% Custom pre and post title settings
+% Custom pre and post title settings
+\pretitle{\begin{center}\LARGE\bfseries} % Keep title centered
+    \posttitle{\par\end{center}\vskip 0.5em}
+    \preauthor{\begin{center}\large}
+    \postauthor{\end{center}}
 
 \newcommand{\subtitle}[1]{%
     \posttitle{%
@@ -20,11 +22,15 @@
         \begin{center}\Large#1\end{center}
         \vskip 0.5em}%
 }
-\title{Projeto de Compiladores 2024/25}
-\subtitle{Compilador para a linguagem deiGO}
-\author{Trabalho realizado por:\\
-Miguel Castela uc2022212972 \\
-Nuno Batista uc2022212972}
+\title{
+    \vspace{-2em} % Adjust spacing above title
+    \includegraphics[width=0.3\textwidth]{UC.png} \\ 
+    deiGo Compiler}
+\subtitle{Report for Compilers 2024/25 course project}
+\author{
+Miguel Castela, uc2022212972 \\
+Nuno Batista, uc2022216127}
+\date{} % No dat
 
 \date{}
 \begin{document}
@@ -34,126 +40,124 @@ Nuno Batista uc2022212972}
 \newpage
 
 \section{Introduction}
-Este relatório descreve o desenvolvimento de um compilador para a linguagem deiGO, realizado no âmbito do projeto da disciplina de Compiladores do ano letivo 2024/25. O objetivo deste projeto é aplicar os conhecimentos adquiridos ao longo do curso na construção de um compilador funcional.
+This report describes the development of a compiler for the deiGo language, carried out as part of the Compilers course project for the academic year 2024/25. The goal of this project is to apply the knowledge acquired throughout the course in the construction of a functional compiler.
 
 \section{Grammar}
-    Our implementation focuses on resolving ambiguities by explicitly defining operator precedence and associativity rules.\\ Non-termials where simplified by introducing auxiliary nodes to handle the optional elements and repititions.
-    \begin{itemize}
-        \item \textbf{Handling of Optional and Repeated Elements}: \\ Optional and repeated elements are handled using specific grammar rules that provide alternatives for their presence or absence.
-            By defining optional elements explicitly, we also ensure that the parser can handle cases where certain elements are missing. This is crucial for maintaining the correctness of the AST later on.
-            By using optional nodes, we can easily append new declarations to the existing list.
-            \begin{center}
-                \begin{lstlisting}[language=C, caption={StarCommaId Rule}, basicstyle=\small\ttfamily]
-StarCommaId:StarCommaId COMMA IDENTIFIER
-    {
-        $$ = $1;
-        struct node *new_decl = new_node(VarDecl, NULL);
-        add_child(new_decl, new_node(Identifier, $3));
-        add_child($$, new_decl);
     
-    // The type is added in the VarSpec rule
-    }
-    |   
-    {   
-        $$ = new_node(AUX, NULL);
-    };
+    \begin{itemize}
+        \item \textbf{Handling of Optional and Repeated Elements}: \\ 
+        Optional and repeated elements are handled through specific grammar rules that define alternatives for their presence or absence. By explicitly defining optional elements, we ensure that the parser can correctly handle cases where certain elements are missing. This is essential for maintaining the correctness of the AST later on.
+        By using optional nodes, we can easily append new declarations 
+        to the existing list. For example:\\ \\
+        \small\textbf{VarSpec $\rightarrow$ IDENTIFIER \{COMMA IDENTIFIER\} Type}
+        \\
+        \\
+        translates to rules:
+        \begin{center}
+            \begin{lstlisting}[language=C, basicstyle=\small\ttfamily]
+VarSpec : IDENTIFIER StarCommaId Type
+                \end{lstlisting}
+            \end{center}
+            and:
+            \begin{center}
+                \begin{lstlisting}[language=C, basicstyle=\small\ttfamily]
+StarCommaId : StarCommaId COMMA IDENTIFIER
                 \end{lstlisting}
             \end{center}
 
-            This rule, designed to manage repeated identifiers separated by commas, is particularly useful for handling multiple variable declarations in a single statement. For this, the rule employs recursion, where each node represents a variable declaration.   
-            \begin{itemize}
-                \item \textbf{Recursive case}:  When an identifier is followed by a comma and another identifier, the existing node (StarCommaId) serves as the "parent" or "father" node. A new VarDecl node is created for the subsequent identifier, with the identifier as its "child" or "son." This new VarDecl node is then added as a "child" to the parent node (StarCommaId).
-                \item \textbf{Base case}:If no preceding identifiers exist, a new AUX node is created to serve as the root or starting "father" node for the list of identifiers.
-            \end{itemize}
-            By organizing the identifiers with this structure, the rule facilitates the processing and representation of variable declarations as a tree,
-        \item \textbf{Optimization and Readibility }: \\ Our grammar rules are desgined to be clear and readable, making it easier to understand the parsing process. We define operator precedence and associativity explicitly to resolve ambiguities. This ensures that expressioons are parsed correctly according to the deiGO language specifications.
-            \\Examples of the transcription of the initnal grammar in EBNF notation to the Bison format:
+
+            This rule, designed to manage repeated identifiers 
+            separated by commas, is particularly useful for handling 
+            multiple variable declarations in a single statement. For this, 
+            the rule employs recursion, where each node represents a variable 
+            declaration.   
+        \item \textbf{Optimization and Readibility}: \\ We define operator precedence and associativity explicitly to resolve ambiguities. This ensures that expressioons are parsed correctly according to the deiGo language specifications.
+            \\Examples of the transcription of the initnal grammar in EBNF notation to the Yacc format:
             \begin{center}
-                \small\textbf{Declarations \textendash{} VarDeclaration SEMICOLON | FuncDeclaration SEMICOLON}
-            \end{center}
-            \begin{center}
+                \small\textbf{Declarations $\rightarrow$ \{VarDeclaration SEMICOLON \textbar{} FuncDeclaration SEMICOLON\}}
                 \begin{lstlisting}[language=C, basicstyle=\small\ttfamily]
 Declarations : Declarations FuncDecl SEMICOLON
-    {
-        $$ = $1;
-        add_child($$, $2);
-    }              
-    | Declarations VarDecl SEMICOLON
-    {
-        $$ = $1;
-        struct node *var_declarations = new_node(AUX, NULL);
-        add_child($$, var_declarations);
-        add_child(var_declarations, $2);
-    }
-    | 
-    {
-        $$ = new_node(AUX, NULL);
-    }
-    ;
+
             \end{lstlisting}
                 \end{center}
             \begin{center}
-                \small\textbf{VarSpec \textendash{} IDENTIFIER {COMMA IDENTIFIER} Type}
+                \small\textbf{VarSpec $\rightarrow$ IDENTIFIER \{COMMA IDENTIFIER\} Type}
             \end{center}
             \begin{center}
                 \begin{lstlisting}[language=C, basicstyle=\small\ttfamily]
 VarSpec : IDENTIFIER StarCommaId Type
-    {
-    $$ = new_node(AUX, NULL);
-    struct node *new_decl = new_node(VarDecl, NULL);
-    add_child(new_decl, $3);
-    add_child(new_decl, new_node(Identifier, $1));
-    add_child($$, new_decl);
-    add_child($$, $2);
-    }
-    ;
+ 
             \end{lstlisting}
         \end{center}
         \begin{center}
-        \small\textbf{FuncDeclaration \textendash{} FUNC IDENTIFIER LPAR [Parameters] RPAR [Type] FuncBody}
+        \small\textbf{FuncDeclaration $\rightarrow$ FUNC IDENTIFIER LPAR [Parameters] RPAR [Type] FuncBody}
         \end{center}
         \begin{center}
         \begin{lstlisting}[language=C, basicstyle=\small\ttfamily]
 FuncDecl : FUNC IDENTIFIER LPAR OptFuncParams RPAR OptType FuncBody
-{
-    $$ = new_node(FuncDecl, NULL);
-    struct node *new_func_header = new_node(FuncHeader, NULL);
-    add_child($$, new_func_header);
-    add_child(new_func_header, new_node(Identifier, $2));
-    add_child(new_func_header, $4);
-    add_child(new_func_header, $6);
-    add_child($$, $7);
-}
-;
+
     \end{lstlisting}
     \end{center}
+
+    \item \textbf{Syntax Error Handling}:\\
+    To recover from local syntax errors we added some special rules in order to keep parsing and detect the maximum ammout of errors:
+    \begin{center}
+        \begin{lstlisting}[language=C, basicstyle=\small\ttfamily]
+FuncInvocation : IDENTIFIER LPAR PosExpr RPAR
+| IDENTIFIER LPAR error RPAR
+    {
+        yyerror("Error in function invocation, skipping to next statement.");
+        $$ = new_node(AUX, NULL);
+    }
+;
+    \end{lstlisting}
+\end{center}
+For example, in this rule the FuncInvocation non-terminal includes an alternative that handles errors within function invocations.
     \end{itemize}
+
+
 
 
 \section{AST/Symbol Table Algorithms and Data Structures}
     \begin{itemize}
-        \item \textbf{Auxiliary AST nodes}: \\In our grammar, we use auxiliary(AUX) nodes to store the children of nodes with an undefined number of children. This approach helps in managing optional and repeated elements by acting as a container for multiple instances of a particular non-terminal. This function has the main goal of maintaining a clear and organized AST. By grouping related nodes under an AUX node, we can ensure that the tree structure is easy to traverse and understand. As this is a temporary container at the end of the syntax analasys we perform as DFS transversal to append the AUX nodes children to their respective parent nodes, using que RemoveAux function.EXMPLO (varSpec(?))
-    \begin{center}
+        \item \textbf{Auxiliary AST nodes}: \\In our grammar, we use auxiliary (AUX) nodes to store the children of nodes with an undefined number of children. This approach helps in managing optional and repeated elements by acting as a container for multiple instances of a particular non-terminal. This function has the main goal of maintaining a clear and organized AST. By grouping related nodes under an Aux node we can ensure that the tree structure is easy to traverse and understand. As this is a temporary container, at the end of the syntax analasys we perform as DFS transversal to append the AUX nodes' children to their respective parent nodes, using the `remove\_aux' function.\\
+        For example, this would be an AST substructure when parsing the function f(C1, C2):\\
         \begin{tikzpicture}
-            \node[draw, circle] (A) at (3,0) {FuncParams};
-            \node[draw, circle] (B) at (0,-3) {AUX};
-            \node[draw, circle] (C) at (-2,-5) {AUX};
-            \node[draw, circle] (D) at (2,-5) {C1};
-            \node[draw, circle] (E) at (0,-7) {C2};
-            \node[draw, circle] (F) at (-4,-7) {AUX};
+            \node[draw, circle] (A) at (0,0) {FuncDecl};
+            \node[draw, circle] (B) at (-2,-3) {FuncHeader};
+            \node[draw, circle] (C) at (-4,-6) {ID};
+            \node[draw, circle] (D) at (0,-6) {AUX};
+            \node[draw, circle] (E) at (2,-3) {FuncBody};
+            \node[draw, circle] (F) at (-5.5,-8) {f};
+            \node[draw, circle] (G) at (-7,-6) {FuncParams};
+            \node[draw, circle] (H) at (-8,-8) {AUX};
+            \node[draw, circle] (I) at (-6,-10) {C1};
+            \node[draw, circle] (J) at (-10,-10) {AUX};
+            \node[draw, circle] (K) at (-8, -12){C2};
+            \node[draw, circle] (L) at (-12,-12) {AUX};
+
         
-            \draw (A) -- (B);
-            \draw (B) -- (C);
-            \draw (B) -- (D);
-            \draw (C) -- (E);
-            \draw (C) -- (F);
-        \end{tikzpicture}
-    \end{center}
+            \draw[->] (A) -- (B);
+            \draw[->] (B) -- (C);
+            \draw[->] (B) -- (D);
+            \draw[->] (A) -- (E);
+            \draw[->] (C) -- (F);
+            \draw[->] (B) -- (G);
+            \draw[->] (G) -- (H);
+            \draw[->] (H) -- (I);
+            \draw[->] (H) -- (J);
+            \draw[->] (J) -- (K);
+            \draw[->] (J) -- (L);
+            
+                   % Arrow with label pointing to AUX node
+            \draw[<-, thick] (D) -- ++(0,-2) node[below] {Placeholder for type};        \end{tikzpicture}
         
     
-    \item \textbf{Locates}: \\ This macro serves as a way to store the lines and columns of a specific node. In this way we can identify the nodes that are creating a semantic error.
-    \item \textbf{AST Structs}: \\ Firstly the node struct:
-
+    \item \textbf{LOCATE}: \\ This macro serves as a way to store the lines and columns of a specific node. In this way we can identify the nodes that are responsible for creating semantic errors.
+    \item \textbf{AST Structs}: \\
+    \begin{center}
+        \textbf{node struct}
+    \end{center}
         \begin{center}
             \begin{lstlisting}[language=C, basicstyle=\small\ttfamily]
 struct node {
@@ -170,7 +174,7 @@ struct node {
             \centering
             \begin{tabular}{|c|p{10cm}|}
             \hline
-            Parameter & \multicolumn{1}{|c|}{Description} \\
+            Member & \multicolumn{1}{|c|}{Description} \\
             \hline
             category & An enum representing the category of the node. \\
             \hline
@@ -188,20 +192,14 @@ struct node {
             \caption{Description of the node struct fields}
             \label{tab:node_struct}
         \end{table}
-        \begin{center}
-            \begin{lstlisting}[language=C, basicstyle=\small\ttfamily]
-struct node_list {
-    struct node *node;
-    struct node_list *next;
-};
-        \end{lstlisting}
-    \end{center}
-This struct is used to store a list of children nodes, where each node is linked to the next node in the list.
- 
+    
     \item \textbf{Symbol Table Structs}: \\  
     \begin{center}
+        \textbf{symbol\_list}
+    \end{center}
+    \begin{center}
         \begin{lstlisting}[language=C, basicstyle=\small\ttfamily]
-            struct symbol_list {
+struct symbol_list {
     char *identifier;
     enum type type;
     struct node *node;
@@ -218,7 +216,7 @@ This struct is used to store a list of children nodes, where each node is linked
     \centering
     \begin{tabular}{|c|p{10cm}|}
     \hline
-    Parameter & \multicolumn{1}{|c|}{Description} \\
+    Member & \multicolumn{1}{|c|}{Description} \\
     \hline
     identifier & A string representing the name of the symbol. \\
     \hline
@@ -230,38 +228,149 @@ This struct is used to store a list of children nodes, where each node is linked
     \hline
     next & A pointer to the next symbol\_list element. \\
     \hline
-    was\_used & An integer indicating if the symbol was used. \\
+    was\_used & Flag activated when a declared variable is used. Indicates whether a "variable not used" error should be thrown at the end of the analasys \\
     \hline
     is\_function & An integer indicating if the symbol is a function. \\
     \hline
-    function\_parameters & A string representing the parameter types of the function. \\
+    function\_parameters & Comma separated parameters in string format, used to check if a function is being correctly called \\
     \hline
     \end{tabular}
-    \caption{Description of the symbol struct fields}
+    \caption{Description of the symbol\_list struct fields}
     \label{tab:symbol_struct}
 \end{table}
-
+\begin{center}
+    \textbf{scopes\_queue}
+\end{center}
     \begin{center}
             \begin{lstlisting}[language=C, basicstyle=\small\ttfamily]
-        struct scopes_queue {
-            struct symbol_list *table;
-            struct scopes_queue *next;
-            struct node *func_body; // The function body node is stored here so it can be processed after the function declarations
-            char *identifier;
-        };        
+struct scopes_queue {
+    struct symbol_list *table;
+    struct scopes_queue *next;
+    struct node *func_body; // The function body node is stored here so it can be processed after the function declarations
+    char *identifier;
+};        
             \end{lstlisting}
         \end{center}
-        This struct stores a queue of symbol tables for managing program scopes. Each scope includes a symbol table, a pointer to the next scope, a pointer to the function body, and the function's identifier.
-
-
-    \item \textbf{Table Symbols}: \\
-    \item \textbf{node children}: \\
-    \item \textbf{Syntax Error Handling}:
-
+In order to make the functions and global variables available anywhere in the code, we first make a preliminary AST pass where every function header and global variable are added to the global symbol table. During this first descent the function bodies associated to their respective scopes are added to a queue where they will be processed in FIFO order after the first descent is finished.
 \end{itemize}
 
 
 
+
 \section{Geração de Código}
+\begin{itemize}
+\item \textbf{Basic Blocks}: \\
+\begin{center}
+    \begin{tikzpicture}
+        % Node A
+        \node[draw, rectangle, align=center] (A) at (0,-4) {if(y \textless x)};
+        % Node B
+        \node[draw, rectangle, align=center] (B) at (2,-6) {x = 1 \\ y = 2};
+        % Node C
+        \node[draw, rectangle, align=center] (C) at (-2,-6) {z = 3 \\ k = 1};
+        % Node D
+        \node[draw, rectangle, align=center] (D) at (0,-8) {x = 32};
+        % Node E
+        \node[draw, rectangle, align=left] (E) at (-8,-4) 
+        {
+         for(x==2) \{
+        \\
+        \hspace{1em}x = 1 + 2 \\ 
+         \hspace{1em}y = 2 + 2 \\
+         \hspace{1em}if (y\textless x) \{ \\
+         \hspace{1em}\hspace{1em}z = 3 \\ 
+         \hspace{1em}\hspace{1em}k = 1 \\ 
+         \hspace{1em}\} else \{ \\
+         \hspace{1em}\hspace{1em}x = 1 \\ 
+         \hspace{1em}\hspace{1em}y = 2 \\
+            \hspace{1em}\}
+            \\
+            \}
+            \\
+        x = 2
+        };
+        % Node F
+        \node[draw, rectangle, align=left] (F) at (0,0) {for(x==2)};
+        % Node G
+        \node[draw, rectangle, align=left] (G) at (0,-2) {x = 1 + 2 \\ y = 2 + 2};
+        % Node H
+        \node[draw, rectangle, align=left] (H) at (0,-10) {x = 2};
+        % Arrows with text
+        \draw[->, >=stealth, line width=1.2pt] (F.west) to[out=180, in=170] node[midway, left] {False} (H); 
+        \draw[->, >=stealth, line width=1.2pt] (G) -- (A);
+        \draw[->, >=stealth, line width=1.2pt] (F) -- node[midway, right] {True} (G);
+        \draw[->, >=stealth, line width=1.2pt] (A) -- node[midway, right] {False} (B);
+        \draw[->, >=stealth, line width=1.2pt] (A) -- node[midway, left] {True} (C);
+        \draw[->, >=stealth, line width=1.2pt] (B) --  (D);
+        \draw[->, >=stealth, line width=1.2pt] (C) -- (D);
+        \draw[->, >=stealth, line width=1.2pt] 
+            (D) to[out=-5, in=0] (F);
+    \end{tikzpicture}
+\end{center}
+Our control flow graph is structured in such that each node is a basic block. Wich are generated according to the basic block creation algotithm. Moreover, when a return statement is found in the middle of a basic block, code stops being generated as the code that succeeds the return statement is unreachable. 
+
+
+\item \textbf{String Literal Processing}: \\
+In order to determin the real string literal lenth, also taking into account the escape sequences, we use the `process\_escape\_sequences' function. This function goes through the string , counting each character and thanslating the valid deiGo escape sequences into their respective LLVM IR escape sequence codes.
+
+\item \textbf{Tail Call Optimization}: \\
+By keeping track of a `is\_tail' flag, which is turned on before the last statement of a given function is processed, we know when we should activate the tail flag on the call instruction. When the `is\_tail' flag is turned on and the statement has a function call.
+
+
+\item \textbf{Short Circuit}: 
+
+\begin{center}
+    \begin{lstlisting}[language=C, basicstyle=\small\ttfamily]
+var x int;
+func() {
+    x = 1;
+    return False
+}
+main() {
+    x = 1; 
+    if (True || func())
+    //(false && func()) would also display short circuit
+    {
+        x = 2;
+        return False;        
+    }
+}
+    \end{lstlisting}
+\end{center}
+
+In the example above, the function call to func() is never executed, as the first operand of the OR operator is True. This is an example of short-circuit evaluation, where the second operand is not evaluated if the first operand is sufficient to determine the result of the expression. This optimization can be applied to both logical AND and OR operators, and can help improve the efficiency of the generated code by avoiding unnecessary evaluations.
+
+\item \textbf{Outputs}: \\
+At the start of the LLVM IR files, some format specifiers
+are declared for the different variable types:
+
+\begin{center}
+    \begin{lstlisting}[language=C, basicstyle=\footnotesize\ttfamily]
+"@.str_int = private unnamed_addr constant [4 x i8] c\"%%d\\0A\\00\"\n"
+"@.str_float = private unnamed_addr constant [7 x i8] c\"%%.08F\\0A\\00\"\n"
+"@.str_true = private unnamed_addr constant [6 x i8] c\"true\\0A\\00\"\n"
+"@.str_false = private unnamed_addr constant [7 x i8] c\"false\\0A\\00\"\n"
+"@.str_string = private unnamed_addr constant [4 x i8] c\"%%s\\0A\\00\"\n"
+    \end{lstlisting}
+\end{center}
+
+When a print statement is found,
+the C library's printf function is called, and an i8* pointer
+is passed as an argument. This pointer is obtained
+by passing the printed expression through the previously declared format
+specifier
+
+\item \textbf{Main function and console arguments}: \\
+in order to make the code more organized, the LLVM equivalent of the main function is only generated
+after all the other functions have been declared. This way, the main function will always be the last in the
+file. Also, the `codegen\_main' is different from the `codegen\_function' as the main function has to take
+into account the console parameters through the variables i32 argc and i8 *argv.
+These parameters are translated into integers using the C library function `atoi'.
+
+
+
+\end{itemize}
+
+
 
 \end{document}
