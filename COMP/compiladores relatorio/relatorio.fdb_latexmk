@@ -1,10 +1,10 @@
 # Fdb version 4
-["pdflatex"] 1734300023.53736 "/home/castela/Documents/GitHub/compiladores_fichas/COMP/compiladores relatorio/relatorio.tex" "relatorio.pdf" "relatorio" 1734300025.05672 0
+["pdflatex"] 1735606641.48788 "/home/castela/Documents/GitHub/compiladores_fichas/COMP/compiladores relatorio/relatorio.tex" "relatorio.pdf" "relatorio" 1735606642.44086 0
   "/etc/texmf/web2c/texmf.cnf" 1733106275.85044 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/castela/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk" 1734223933.34377 12644 ecd61c071198d3acac18411b8ee1f534 ""
   "/home/castela/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk" 1733107229.44275 14040 575591aca587dcc57026ab1e59cc5d73 ""
   "/home/castela/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tctt1095.600pk" 1733263947.29658 10372 2f85f93c20d8584b5f85bbb8b7ca7e3e ""
-  "/home/castela/Documents/GitHub/compiladores_fichas/COMP/compiladores relatorio/relatorio.tex" 1734300023.21739 16105 f8713028ad5cc9c7543ff074eae6d2c0 ""
+  "/home/castela/Documents/GitHub/compiladores_fichas/COMP/compiladores relatorio/relatorio.tex" 1735606641.26233 16106 2fe5f8774cf14ab56fd5657a111b3bf2 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1136768653 1536 02c06700a42be0f5a28664c7273f82e7 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
@@ -129,8 +129,8 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1733107137.99265 128028 f533b797fba58d231669ea19e894e23e ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1733922934 6800790 4f44c5be00cf6bb5c5639010e479b2cb ""
   "UC.png" 1734286951.48695 228958 b552c1a2a4fe88ba949df20bc7654fc3 ""
-  "relatorio.aux" 1734300024.94738 840 3ad521a86d57d61352a3dc70b8c678d8 "pdflatex"
-  "relatorio.tex" 1734300023.21739 16105 f8713028ad5cc9c7543ff074eae6d2c0 ""
+  "relatorio.aux" 1735606642.37432 840 3ad521a86d57d61352a3dc70b8c678d8 "pdflatex"
+  "relatorio.tex" 1735606641.26233 16106 2fe5f8774cf14ab56fd5657a111b3bf2 ""
   (generated)
   "relatorio.aux"
   "relatorio.log"
