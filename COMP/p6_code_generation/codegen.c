@@ -14,11 +14,29 @@ int codegen_natural(struct node *natural) {
     return temporary++;
 }
 
+int codegen_identifier(struct node *identifier){
+    printf("  %%%d = add i32* %%%s\n", temporary, identifier->token);
+    return temporary++;
+}
+
+int codegen_mul(struct node *mul) {
+    int t1 = codegen_expression(getchild(mul, 0));
+    int t2 = codegen_expression(getchild(mul, 1));
+    printf("  %%%d = mul i32 %%%d, %%%d\n", temporary, t1, t2);
+    return temporary++;
+}
+
 int codegen_expression(struct node *expression) {
     int tmp = -1;
     switch(expression->category) {
         case Natural:
             tmp = codegen_natural(expression);
+            break;
+        case Identifier:
+            tmp = codegen_identifier(expression);
+            break;
+        case Mul:
+            tmp = codegen_mul(expression);
             break;
         default:
             break;
