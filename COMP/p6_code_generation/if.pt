@@ -1,0 +1,5 @@
+Finally, test your solution with the following Petit program:
+factorial(integer n) = if n then n * factorial(n-1) else 1
+main(integer i) = write(factorial(read(0)))
+By following the link in the references below, you can find other Petit programs
+such as primes.pt to test your solution with more advanced programs.

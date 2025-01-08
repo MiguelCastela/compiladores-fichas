@@ -48,6 +48,54 @@ int codegen_sub(struct node *sub) {
     return temporary++;
 }
 
+int codegen_call(struct node *call) {
+    struct node *args = getchild(call, 1);
+
+    // MIGHT BE TO SHORT, REVISE LATER (MAYBE REALLOC)
+    char args_str[4096];
+    args_str[0] = '\0';
+
+    int cur = 0;
+    struct node *arg;
+    while((arg = getchild(args, cur++)) != NULL){
+        int t = codegen_expression(arg);
+        char str[128];
+        if(cur > 1)
+            sprintf(str, ", i32 %%%d", t);
+        else
+            sprintf(str, "i32 %%%d", t);    
+        strcat(args_str, str);        
+    }
+    printf("  %%%d = call i32 @_%s(%s)\n", temporary, getchild(call, 0)->token, args_str);
+
+    return temporary++;
+}
+
+int codegen_if(struct node *ifnode){
+    int label_id = temporary++;
+    printf("  %%%d = alloca i32\n", label_id);
+
+    int t = codegen_expression(getchild(ifnode, 0));
+    printf("  %%%d = icmp ne i32 %%%d, 0\n", temporary, t);
+    int cmp = temporary++;
+    printf("  br i1 %%%d, label %%L%dthen, label %%L%delse\n", cmp, label_id, label_id);
+    printf("L%dthen:\n", label_id);
+    
+    int t1 = codegen_expression(getchild(ifnode, 1));
+    printf("  store i32 %%%d, i32* %%%d\n", t1, label_id);
+    printf("  br label %%L%dend\n", label_id);
+    printf("L%delse:\n", label_id);
+
+    int t2 = codegen_expression(getchild(ifnode, 2));   
+    printf("  store i32 %%%d, i32* %%%d\n", t2, label_id);
+    printf("  br label %%L%dend\n", label_id);
+    printf("L%dend:\n", label_id);
+    printf("  %%%d = load i32, i32* %%%d\n", temporary, label_id);
+    
+    return temporary++;
+}
+
+
 int codegen_expression(struct node *expression) {
     int tmp = -1;
     switch(expression->category) {
@@ -69,7 +117,14 @@ int codegen_expression(struct node *expression) {
         case Sub:
             tmp = codegen_sub(expression);
             break;
+        case Call:
+            tmp = codegen_call(expression);
+            break;
+        case If:
+            tmp = codegen_if(expression);
+            break;
         default:
+
             break;
     }
     return tmp;

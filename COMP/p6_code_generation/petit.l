@@ -2,7 +2,7 @@
 
 %{
 
-#include "y.tab.h"
+#include "petit.tab.h"
 #include "ast.h"
 #include "semantics.h"
 #include "codegen.h"
